@@ -5,7 +5,7 @@
 \docType{package}
 \title{ Bayesian inference for (dynamic) stick-breaking mixtures }
 
-\description{ General implementation for a variety of stick-breaking
+\description{ Basic implementation for a variety of stick-breaking
 mixture models, including particle learning and Gibbs sampling for
 static DP mixtures, particle learning for dynamic BAR stick-breaking,
 and DP mixture regression.  }

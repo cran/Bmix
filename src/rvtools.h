@@ -1,6 +1,6 @@
 /*  A set of basic random variable tools that work with 
  *  the randomkit.h Mersenne Twister pseudo-RNG.
- *  Written by Matt Taddy.
+ *  
  */
 
 #ifndef __RVTOOLS_H__

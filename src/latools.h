@@ -1,7 +1,7 @@
 /*  Linear algebra tools (wrappers for lapack and blas) 
  *  and some basic array tools.
  *  Everything is COLUMN MAJOR for communication with fortran.
- *  Written by Matt Taddy.
+ *  
  */
 
 #ifndef __LATOOLS_H__
