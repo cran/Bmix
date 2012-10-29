@@ -2,10 +2,7 @@
 # 1D dynamic densities
 ########
 
-# Simulate the data
-library(mix)
-N <- 50 # small number of particles; you'll notice markov error in repeated runs
-
+# Simulate the data: 100 time points with 10 obsv each
 nx <- 10
 total <- nx*100
 x <- c()
@@ -36,22 +33,25 @@ for(i in 1:10)
 
 
 alpha <- 4
-params <- c(0, #lambda
+params <- c(0, #gamma
             .2, #kappa
             3, #nu
             3, #gam0
             50 #psi0
             )
+N <- 50 # small number of particles; you'll notice markov error in repeated runs
 
+# independent DP for each time
 l0 <- mix(x, alpha=alpha, g0params=params,
           times=times, rho=0, cat=0,
           N=N, niter=0, read=0, print=1)
 
+# BAR stick-breaking with rho=1/2
 l1 <- mix(x, alpha=alpha, g0params=params,
           times=times, rho=0.5, cat=0,
           N=N, niter=0, read=0, print=1) 
 
-# Plot the Bayes factor
+# Plot the Bayes factor for rho=.5 vs independence
 bf <- l1$logprob-l0$logprob
 par(mai=c(.7,.7,0.4,0.4), mfrow=c(1,1))
 plot(c(-100:(total+100)), rep(0,total+201), type="l", col=grey(.5), xlim=c(10,total+10), ylim=range(bf), 
@@ -61,7 +61,7 @@ lines(bf, col=6)
 text(x=total+20, y=bf[total], label="0.5", cex=.8, font=3) 
 mtext("Observation", side=1, font=3, cex=1.1, line=-1.25, outer=TRUE)
 
-# Compare the filtered densities
+# Extract mean pdfs and compare the filtered densities
 dens <- function(prt)
   { pdf <- rep(0,100)
     for(j in 1:nrow(prt))
@@ -88,6 +88,7 @@ mf1 <- apply(pdfs1, c(1,3), mean)
 
 rl <- readline("press RETURN to continue: ")
 
+# plot
 cols <- rainbow(99)
 par(mfrow=c(1,3))
 pmat <- persp(x=xx, y=1:100, z=t(dd), theta=20, phi=40, expand=.6, ticktype="detailed", r=100, tcl=.1,
