@@ -40,7 +40,8 @@ dens <- function(prt){
     if(j==1){ pf <- pf + tmp*prt$counts.1.2[1]/sum(prt[1,grep("counts", names(prt))]) }
     else{ pf <- pf + tmp*sum(prt$counts.1.2[c(1,j)])/sum(prt[c(1,j),grep("counts", names(prt))])}
   }
-  # note that this is a quick but sloppy way to do conditioning; see Taddy & Kottas 2009 JBES
+  # note that this is a quick but sloppy way to do conditioning;
+  # see Taddy & Kottas 2010 JBES, as well as the pines.R demo
   cdf <- pdf/matrix(mdf,nrow=nx,ncol=ny)
   pf <- pf/mdf
   return(list(pdf=pdf,mdf=mdf,cdf=cdf,pf=pf))

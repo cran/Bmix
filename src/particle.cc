@@ -3,6 +3,7 @@
 extern "C" {
 #include "rvtools.h"
 #include "latools.h"
+#include "rhelp.h"
 #include <stdio.h>
 }
 #include "particle.h"
@@ -80,7 +81,8 @@ void Particle::Push(double *zm)
 
 void Particle::Erase(int j){
   if(v.size()>0)
-    { cout << "Shouldn't be running MCMC with ddp weights; reset." << endl;
+    { myprintf(mystdout,
+			   "Shouldn't be running MCMC with ddp weights; reset.\n");
       v.clear(); ct.clear(); }
   m+= -1;
   assert(n.size() == m+1 && n[j]==0);
@@ -116,7 +118,8 @@ void Particle::Add(int i){
 
 void Particle::Remove(int i){
   if(v.size()>0)
-    { cout << "Shouldn't be running MCMC with ddp weights; reset." << endl;
+    { myprintf(mystdout, 
+			   "Shouldn't be running MCMC with ddp weights; reset.\n");
       v.clear(); }
   int j = k[i];
   k[i] = -1;
@@ -185,6 +188,16 @@ void Particle::Propagate(double *zm, void *state)
 
 void Particle::DrawG0(void *state)
 {
+  double a_al = 2; 
+  double b_al = 1;
+  double aaux = rbet(alpha+1.0, ((double) obs), state);
+  double p = log(a_al + ((double) m) - 1.0);
+  p += -log( ((double) obs)*(b_al - log(aaux)) + a_al + ((double) m) - 1.0);
+  p = exp(p);
+
+  if(runi(state)<p) alpha = rgam(a_al + ((double) m), b_al - log(aaux), state);
+  else alpha = rgam(a_al + ((double) m) - 1, b_al - log(aaux), state); 
+
   /* draw latent kenel params */
   vector<Matrix> Sigmai;
   for(int j=0; j<m; j++){
@@ -200,6 +213,7 @@ void Particle::DrawG0(void *state)
   Omega.rWSH( ((int) df), SS, state );
   /* re-calculate postpred params */
   for(int j=m; j>=0; j--) ABCD(j);
+
 }
 
 
@@ -334,7 +348,7 @@ void Particle::Read(int ind, int num)
   sprintf(filename,format,ind,num);
   FILE *file = fopen(filename,"r");
   if(!file)
-    { cout << "Missing file '.particle" << ind << "." << num << ".txt' for input." << endl;
+    { myprintf(mystdout, "Missing file '.particle%d.%d.txt' for input.\n");
       return; }
 
   while(fgetc(file) != '\n'){ /* skip first line of prior params */ }
@@ -347,7 +361,8 @@ void Particle::Read(int ind, int num)
   while(fscanf(file, "%lf", &nj)==1){ 
     n.push_back(nj);
     for(int i=0; i<suffdim; i++)
-      if(fscanf(file, "%lf", &suffstats[i]) != 1) cout << "read error" << endl;
+      if(fscanf(file, "%lf", &suffstats[i]) != 1) 
+		myprintf(mystdout, "read error\n");
     /* now, push back the suffstats */
     int pnt0=0;
     zbar.push_back(Matrix(dim, 1, suffstats));

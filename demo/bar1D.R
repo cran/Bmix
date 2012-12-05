@@ -39,7 +39,7 @@ params <- c(0, #gamma
             3, #gam0
             50 #psi0
             )
-N <- 50 # small number of particles; you'll notice markov error in repeated runs
+N <- 50 # very small number of particles! You'll notice markov error in repeated runs
 
 # independent DP for each time
 l0 <- mix(x, alpha=alpha, g0params=params,
@@ -65,7 +65,7 @@ mtext("Observation", side=1, font=3, cex=1.1, line=-1.25, outer=TRUE)
 dens <- function(prt)
   { pdf <- rep(0,100)
     for(j in 1:nrow(prt))
-      { pdf <- pdf + prt$p[j]*dt( (xx-prt[j,]$a.1)/sqrt(prt[j,]$B.1), df = prt$c[j])/sqrt(prt[j,]$B.1) }
+      { pdf <- pdf + prt$p[j]*dt( (xx-prt[j,]$a.1)/sqrt(prt[j,]$B.1), df = prt$c[j] )/sqrt( prt[j,]$B.1 ) }
     return(pdf) }
 
 prts1 <- vector(mode="list", length=0)

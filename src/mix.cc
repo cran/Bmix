@@ -3,6 +3,7 @@
 extern "C" {
 #include "rvtools.h"
 #include "latools.h"
+#include "rhelp.h"
 }
 #include "matrix.h"
 #include "particle.h"
@@ -26,7 +27,7 @@ void mixsample(int* rstate,
 	       double* Z,
 	       double* params, // interpreted in particle
 	       double* margllhdout,
-	       int* m_out,
+	       double* m_out,
 	       int* k_out
 	       ) 
 {  
@@ -107,9 +108,7 @@ void mixsample(int* rstate,
       
       /* What just happened? */
       if(r %100 == 0)
-	{ cout << "r = " << r << ", t = " << time[r] << ", resampled = " << np;
-	  //cout << ", v(weights) = " << setprecision(3) << var;
-	  cout << ", avg(clusters) = " << ncomp << endl; }
+		myprintf(mystdout, "r = %d, t = %d, resampled = %d, avg(clusters) = %g\n",r,time[r],np,ncomp); 
 
       /* Track the number of components */  
       mo = 0.0;
@@ -120,20 +119,45 @@ void mixsample(int* rstate,
 
   /* Run MCMC and record results */
   
-  for(int j=0; j<=niter; j++)
-    for(int i=0; i<N; i++)
-      { if(j>0) pset[i].DrawFull(state);
-	if(k_out) pset[i].writeK(&k_out[j*N*total + i*total]); 
-      }
+  if(niter >10){
+    if(N > 1)
+      myprintf(mystdout, "More than 10 iterations: I'll run MCMC for 1st particle only.");
+    for(int j=0; j<niter; j++)
+      { pset[0].DrawFull(state);
+	pset[0].writeK(&k_out[j*total]);
+	if(PRINT) pset[0].Print(j+1); }
+  }
+  else{
+    for(int j=0; j<niter; j++)
+      for(int i=0; i<N; i++) if(j>0) pset[i].DrawFull(state); 
+    if(k_out) for(int i=0; i<N; i++) pset[i].writeK(&k_out[i*total]); 
+    if(PRINT) for(int i=0; i<N; i++) pset[i].Print(i+1);
+  }    
 
-  /* Print out .particle files */
-  if(PRINT) for(int i=0; i<N; i++) pset[i].Print(i+1); 
-  
+    
   /* clean-up */
   free(prob); free(index); free(weight); 
   deleteRNGstate(state); state=NULL;
 
 }
+
+void rwish(int* rstate, int *dim, int *nu, double *psi){
+
+  /* initiate the twister with a state from R */
+  void* state = NULL;
+  unsigned int lstate = three2lstate(rstate);
+  state = newRNGstate(lstate);
+	   
+  Matrix Psi = Matrix(*dim, *dim, psi, true);
+  Matrix Omega = Matrix(*dim, *dim);
+
+  Omega.rWSH(*nu, &Psi, state);
+  for(int i=0; i<(*dim); i++)
+    copy_dvec(&psi[i*(*dim)], Omega[i], (*dim));
+
+  deleteRNGstate(state); state=NULL;
+}
+  
 
 
 }//extern
