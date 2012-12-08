@@ -1,8 +1,8 @@
-\name{Bmix-package}
+\name{mix}
+\alias{mix}
 \alias{Bmix-package}
 \alias{Bmix}
-\alias{mix}
-\docType{package}
+
 \title{ Bayesian inference for (dynamic) stick-breaking mixtures }
 
 \description{ Basic implementation for a variety of stick-breaking
@@ -41,7 +41,7 @@ Bayes factor calculations, and comparison between correlated and independent mod
 
 \usage{
 mix(Z, alpha, g0params, times=NULL,  rho=NULL,  cat=0, 
-    state=NULL, read=FALSE, print=FALSE, N=100, niter=0, kout=FALSE) }
+    state=NULL, read=FALSE, print=FALSE, N=100, niter=0) }
 
 \author{
 Matt Taddy:
@@ -73,7 +73,6 @@ and other papers at \url{faculty.chicagobooth.edu/matt.taddy/research.}}
   \item{print}{ Print out particles for each new time? WARNING: This will litter your working directory with .particle* files!}
   \item{N}{ Number of particles.}
   \item{niter}{ Number of Gibbs sampling iterations after filtering (only for \code{times = NULL}). }
-  \item{kout}{ Return filtered (not smoothed) allocations?}
 }
 
 \value{

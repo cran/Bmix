@@ -1,6 +1,7 @@
 extern "C" {
 #include "rvtools.h"
 #include "latools.h"
+#include "rhelp.h"
 }
 
 #include "matrix.h"
@@ -51,17 +52,30 @@ Matrix::Matrix(int nrow_in, int ncol_in, const double *vals)
 
 Matrix::Matrix(int nrow_in, int ncol_in, const double *vals, bool sym_in)
 {
-  sym = true;
-  nrow = nrow_in;
-  ncol = ncol_in;
-  if(nrow!=ncol) error("Trying to declare a symmetric matrix with nrow!=ncol.");
-
-  M = new_mat(nrow, ncol);
-
-  for(int j=0; j<ncol; j++){
-    for(int i=j; i<nrow; i++){
-      assert(vals[j*nrow+i]==vals[i*nrow+j]);
-      M[j][i] = M[i][j] = vals[j*nrow+i]; 
+  if(!sym_in){
+    sym = false;
+    nrow = nrow_in;
+    ncol = ncol_in;
+    
+    M = new_mat(nrow, ncol);
+    for(int j=0; j<ncol; j++) for(int i=0; i<nrow; i++) M[j][i] = vals[j*nrow+i];
+  }
+  else{
+    sym = true;
+    nrow = nrow_in;
+    ncol = ncol_in;
+    if(nrow!=ncol) error("Trying to declare a symmetric matrix with nrow!=ncol.");
+    
+    M = new_zero_mat(nrow, ncol);
+    
+    for(int j=0; j<ncol; j++){
+      for(int i=j; i<nrow; i++){
+	if(vals[j*nrow+i]!=vals[i*nrow+j]){
+	  sym = false;
+	  error("Trying to declare a symmetric matrix nonsymmetric values.");
+	}
+	M[j][i] = M[i][j] = vals[j*nrow+i]; 
+      }
     }
   }
 }
@@ -146,7 +160,7 @@ Matrix& Matrix::operator=(const Matrix *rhs)
 Matrix& Matrix::operator+=(const Matrix &rhs)
 {  
   if(sym==true && rhs.sym==false) sym= false;
-  if(nrow != rhs.nrow || ncol != rhs.ncol) exit(1); //error("Trying to add matrices with different dimensions.");
+  if(nrow != rhs.nrow || ncol != rhs.ncol) error("Trying to add matrices with different dimensions.");
   for(int j=0; j<ncol; j++) for(int i=0; i<nrow; i++) M[j][i] += rhs.M[j][i];
   //printf("Matrix Compound Assigned\n");
   return *this;

@@ -1,3 +1,6 @@
 DPreg	DP regression with categorical and continuous covariates (both PL and Gibbs)
 bar1D 	Dynamic BAR stick-breaking mixture density estimation in 1-D
 bar2D 	Dynamic BAR stick-breaking mixture density estimation in 2-D
+pines 	Pine-trees example
+alpha 	changing concentration parameter example
+

@@ -39,7 +39,6 @@ class Matrix
   ~Matrix();
   
 
-
   Matrix& operator=(const Matrix& rhs);
   Matrix& operator=(const Matrix *rhs);
   Matrix& operator+=(const Matrix& rhs);
