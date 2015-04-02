@@ -432,7 +432,7 @@ double stickbreak(double *w, int L, double sticka, void *state)
 
 double logit(double x)
 {
-  if(x <= 0.0 || x >= 1.0){ myprintf(mystdout, "bad x in logit\n"); return 0.0; }
+  if(x <= 0.0 || x >= 1.0){ bobbys_printf(bobbys_stdout, "bad x in logit\n"); return 0.0; }
   else return log(x) - log(1-x);
 }
 

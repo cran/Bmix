@@ -25,32 +25,32 @@
 #ifdef RPRINT
 #include <R_ext/Print.h>
 #include <R.h>
-FILE *mystdout = (FILE*) 0;
-FILE *mystderr = (FILE*) 1;
+FILE *bobbys_stdout = (FILE*) 0;
+FILE *bobbys_stderr = (FILE*) 1;
 #else
-FILE *mystdout = stdio;
-FILE *mystderr = stderr;
+FILE *bobbys_stdout = stdio;
+FILE *bobbys_stderr = stderr;
 #endif
 #include <stdarg.h>
 #include <time.h>
 #include <assert.h>
 
 /*
- * myprintf:
+ * bobbys_printf:
  *
  * a function many different types of printing-- in particular, using
  * the Rprintf if the code happens to be compiled with RPRINT,
  * othersie fprintf (takes the same arguments as fprintf)
  */
 
-void myprintf(FILE *outfile, const char *str, ...)
+void bobbys_printf(FILE *outfile, const char *str, ...)
 {
   va_list argp;
   va_start(argp, str);
 
   #ifdef RPRINT
-  if(outfile == mystdout) Rvprintf(str, argp);
-  else if(outfile == mystderr) REvprintf(str, argp);
+  if(outfile == bobbys_stdout) Rvprintf(str, argp);
+  else if(outfile == bobbys_stderr) REvprintf(str, argp);
   else vfprintf(outfile, str, argp);
   #else
   vfprintf(outfile, str, argp);
@@ -72,14 +72,14 @@ void error(const char *str, ...)
   va_list argp;
   va_start(argp, str);
 
-  myprintf(stderr, "ERROR: ");
+  bobbys_printf(stderr, "ERROR: ");
   vfprintf(stderr, str, argp);
 
   va_end(argp);
-  myflush(stderr);
+  bobbys_flush(stderr);
 
   /* add a final newline */
-  myprintf(stderr, "\n");
+  bobbys_printf(stderr, "\n");
 
   /* kill the code */
   assert(0);
@@ -97,26 +97,26 @@ void warning(const char *str, ...)
   va_list argp;
   va_start(argp, str);
 
-  myprintf(stderr, "WARNING: ");
+  bobbys_printf(stderr, "WARNING: ");
   vfprintf(stderr, str, argp);
 
   va_end(argp);
-  myflush(stderr);
+  bobbys_flush(stderr);
 
   /* add a final newline */
-  myprintf(stderr, "\n");
+  bobbys_printf(stderr, "\n");
 }
 #endif
 
 /*
- * myflush:
+ * bobbys_flush:
  *
  * a function for many different types of flushing--  in particular,
  * using * the R_FlushConsole the code happens to be compiled with
  * RPRINT, otherwise fflush
  */
 
-void myflush(FILE *outfile)
+void bobbys_flush(FILE *outfile)
 {
 #ifdef RPRINT
   R_FlushConsole();
@@ -127,14 +127,14 @@ void myflush(FILE *outfile)
 
 
 /*
- * my_r_process_events:
+ * bobbys__r_process_events:
  *
  * at least every 1 second(s) pass control back to
  * R so that it can check for interrupts and/or
  * process other R-gui events
  */
 
-time_t my_r_process_events(time_t itime)
+time_t bobbys__r_process_events(time_t itime)
 {
 #ifdef RPRINT
   time_t ntime = time(NULL);
@@ -153,6 +153,6 @@ time_t my_r_process_events(time_t itime)
 
 /* assert that uses proper R errors under RPRINT */
 
-void myassert(int cnd){
+void bobbys_assert(int cnd){
   if(!cnd)
 	error("failed assertion."); }

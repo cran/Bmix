@@ -1,4 +1,4 @@
-0acab4d8f58572f5b81d8935d9c4e559 *DESCRIPTION
+47cdbae41adcd9f9f2315aebec982bd9 *DESCRIPTION
 07a4579d1af9146f3f0d5fa8b9dc62b9 *NAMESPACE
 84ddb0b235f73f6207ad26f72f03c421 *R/mix.R
 7f4442c2f9a99ed341eb99d9b220b88f *demo/00Index
@@ -14,12 +14,12 @@ e42455b3929b9ff115a85f9b9b65db8b *man/mix.Rd
 f234c14cd4d58bd19510df44e597bbf7 *src/latools.h
 5e9692aab431572baa1e4cc0e6e64cd4 *src/matrix.cc
 bd34cc2c5c7d54a29d72ec2ec2e5c16b *src/matrix.h
-81397c2131a7fba12fa7932b205c0ee7 *src/mix.cc
-21729a7f65ad63427bbb69073badff71 *src/particle.cc
+8d7558f88b36999f804d19b09bdffd3c *src/mix.cc
+30a3c46bf73dbae9553b68837519c727 *src/particle.cc
 80050f7f10c80855a2677c53c1c23a83 *src/particle.h
 2c778c118222206dbe7878ea0339e469 *src/randomkit.c
 59896798fb57e6b2bf4e8c8251e8d55a *src/randomkit.h
-91622142606e2a2c2ca82c6ba2850e38 *src/rhelp.c
-565d5b092f49daa821a76d49b7ae9e94 *src/rhelp.h
-e7d1f41ae27526727183499ccc067d33 *src/rvtools.c
+7c6c97b9e6d0f40251c920ddcd44873f *src/rhelp.c
+ab8acad4cf8df9aece6f2cde397d7491 *src/rhelp.h
+feeaad0d3a4462549f75a1ba27a4034d *src/rvtools.c
 8d329ac0cd70075a3e97a3cbc120e61b *src/rvtools.h

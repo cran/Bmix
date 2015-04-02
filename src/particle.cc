@@ -81,7 +81,7 @@ void Particle::Push(double *zm)
 
 void Particle::Erase(int j){
   if(v.size()>0)
-    { myprintf(mystdout,
+    { bobbys_printf(bobbys_stdout,
 			   "Shouldn't be running MCMC with ddp weights; reset.\n");
       v.clear(); ct.clear(); }
   m+= -1;
@@ -118,7 +118,7 @@ void Particle::Add(int i){
 
 void Particle::Remove(int i){
   if(v.size()>0)
-    { myprintf(mystdout, 
+    { bobbys_printf(bobbys_stdout, 
 			   "Shouldn't be running MCMC with ddp weights; reset.\n");
       v.clear(); }
   int j = k[i];
@@ -348,7 +348,7 @@ void Particle::Read(int ind, int num)
   sprintf(filename,format,ind,num);
   FILE *file = fopen(filename,"r");
   if(!file)
-    { myprintf(mystdout, "Missing file '.particle%d.%d.txt' for input.\n");
+    { bobbys_printf(bobbys_stdout, "Missing file '.particle%d.%d.txt' for input.\n");
       return; }
 
   while(fgetc(file) != '\n'){ /* skip first line of prior params */ }
@@ -362,7 +362,7 @@ void Particle::Read(int ind, int num)
     n.push_back(nj);
     for(int i=0; i<suffdim; i++)
       if(fscanf(file, "%lf", &suffstats[i]) != 1) 
-		myprintf(mystdout, "read error\n");
+		bobbys_printf(bobbys_stdout, "read error\n");
     /* now, push back the suffstats */
     int pnt0=0;
     zbar.push_back(Matrix(dim, 1, suffstats));

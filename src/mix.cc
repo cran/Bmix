@@ -108,7 +108,7 @@ void mixsample(int* rstate,
       
       /* What just happened? */
       if(r %100 == 0)
-		myprintf(mystdout, "r = %d, t = %d, resampled = %d, avg(clusters) = %g\n",r,time[r],np,ncomp); 
+		bobbys_printf(bobbys_stdout, "r = %d, t = %d, resampled = %d, avg(clusters) = %g\n",r,time[r],np,ncomp); 
 
       /* Track the number of components */  
       mo = 0.0;
@@ -121,7 +121,7 @@ void mixsample(int* rstate,
   
   if(niter >10){
     if(N > 1)
-      myprintf(mystdout, "More than 10 iterations: I'll run MCMC for 1st particle only.");
+      bobbys_printf(bobbys_stdout, "More than 10 iterations: I'll run MCMC for 1st particle only.");
     for(int j=0; j<niter; j++)
       { pset[0].DrawFull(state);
 	pset[0].writeK(&k_out[j*total]);

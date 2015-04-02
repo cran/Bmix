@@ -7,7 +7,7 @@
 /* this is now covered by -D RPRINT flags in Makevars */
 /*#define RPRINT*/
 
-extern FILE *mystdout, *mystderr;
+extern FILE *bobbys_stdout, *bobbys_stderr;
 
 #ifndef RPRINT
 void warning(const char *str, ...);
@@ -18,9 +18,9 @@ void error(const char *str, ...);
 #endif
 
 void R_FlushConsole(void); /* R < 2.3 does not have this in R.h (in Rinterface.h) */
-void myprintf(FILE *outfile, const char *str, ...);
-void myflush(FILE *outfile);
-time_t my_r_process_events(time_t itime);
-void myassert(int cnd);
+void bobbys_printf(FILE *outfile, const char *str, ...);
+void bobbys_flush(FILE *outfile);
+time_t bobbys__r_process_events(time_t itime);
+void bobbys_assert(int cnd);
 
 #endif
