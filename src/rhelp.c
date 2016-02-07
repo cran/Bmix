@@ -24,7 +24,6 @@
 #include "rhelp.h"
 #ifdef RPRINT
 #include <R_ext/Print.h>
-#include <R.h>
 FILE *bobbys_stdout = (FILE*) 0;
 FILE *bobbys_stderr = (FILE*) 1;
 #else

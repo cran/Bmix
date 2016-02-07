@@ -1,5 +1,7 @@
 /*  Written by Matt Taddy, Chicago Booth  */
 
+#include <Rmath.h>
+#include <R.h>
 extern "C" {
 #include "rvtools.h"
 #include "latools.h"

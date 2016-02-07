@@ -3,3 +3,5 @@ useDynLib(Bmix)
 import(mvtnorm)
 
 export(mix,particle)
+
+importFrom("utils", "read.table")

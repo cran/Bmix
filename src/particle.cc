@@ -1,5 +1,7 @@
 /*  Written by Matt Taddy, Chicago Booth  */
 
+#include <R.h>
+#include <Rmath.h>
 extern "C" {
 #include "rvtools.h"
 #include "latools.h"
@@ -8,7 +10,6 @@ extern "C" {
 }
 #include "particle.h"
 #include <assert.h>
-#include <Rmath.h>
 
 using namespace std;
 

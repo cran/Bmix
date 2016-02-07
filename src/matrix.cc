@@ -1,12 +1,11 @@
+#include <Rmath.h>
+#include <R.h>
 extern "C" {
 #include "rvtools.h"
 #include "latools.h"
 #include "rhelp.h"
 }
-
 #include "matrix.h"
-#include <Rmath.h>
-#include <R.h>
 #include <math.h> 
 #include <stdlib.h>
 #include <stdio.h>
